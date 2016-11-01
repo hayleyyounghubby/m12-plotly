@@ -1,0 +1,40 @@
+```{r, echo=FALSE, message=FALSE} 
+# Installing plotly to create a choropleth map 
+library(plotly)
+
+# Creating a dataframe that has the csv for the 2011 US agriculture exports
+US.exports <- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2011_us_ag_exports.csv")
+
+# Creating a hover effect with the following exports
+US.exports$hover <- with(US.exports, paste(state, '<br>', "Beef", beef, "Dairy", dairy, "<br>",
+                           "Fruits", total.fruits, "Veggies", total.veggies,
+                           "<br>", "Wheat", wheat, "Corn", corn))
+
+# Giving state boundaries a white border
+l <- list(color = toRGB("white"), width = 2)
+
+# Specify some map projection/options
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('white')
+)
+
+US.exports.map <- plot_geo(US.exports, locationmode = 'USA-states') %>%
+  add_trace(
+    z = ~total.exports, text = ~hover, locations = ~code,
+    color = ~total.exports, colors = 'Purples'
+  ) %>%
+  colorbar(title = "Millions USD") %>%
+  layout(
+    title = '2011 US Agriculture Exports by State<br>(Hover for breakdown)',
+    geo = g
+  )
+```
+
+# 2011 US Agriculture Exports Map
+This is an interactive map that shows the 2011 US agriculture exports map
+`r US.exports.map`
+
+
