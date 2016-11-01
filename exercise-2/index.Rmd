@@ -1,0 +1,20 @@
+```{r, echo=FALSE}
+library(plotly)
+
+People <- c('Bob', 'Michael', 'Alex', 'Olivia', 'Allie')
+Weight <- c(250, 175, 130, 111, 127)
+Height <- c(165.10, 187.96, 172.72, 157.48, 170.18)
+People.data <- data.frame(People, Weight, Height)
+
+People.plot <- plot_ly(People.data, x = ~Weight, y = ~Height, type = 'scatter', textposition = 'middle right', textfont = list(color = 'green', size = 20)) %>%
+  layout(title = 'Weight and Height',
+         xaxis = list(title = 'Weight (lbs)',
+                      zeroline = TRUE,
+                      range = c(100, 300)),
+         yaxis = list(title = 'Height (in)',
+                      range = c(100, 250)))
+```
+This is a scatterplot of five people with their weight and height:
+`r People.plot`
+
+
